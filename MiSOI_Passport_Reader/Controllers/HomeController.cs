@@ -11,11 +11,14 @@ namespace MiSOI_Passport_Reader.Controllers
 	public class HomeController : Controller
 	{
 		private readonly BoxFilter _boxFilter;
+		private readonly MedianFilter _medianFilter;
+
 
 		public HomeController()
 		{
 			_boxFilter = new BoxFilter();
-		}
+			_medianFilter = new MedianFilter();
+        }
 
 		public ActionResult Index()
 		{
@@ -33,9 +36,13 @@ namespace MiSOI_Passport_Reader.Controllers
 				string fileName = file.FileName;
 				string mimeType = file.ContentType;
 				System.IO.Stream fileContent = file.InputStream;
-				Image outputImage = _boxFilter.Transform(new Bitmap(Image.FromStream(file.InputStream)), 15); // Box Filter
+				Image outputImageBox = _boxFilter.Transform(new Bitmap(Image.FromStream(file.InputStream)), 15); // Box Filter
+				Image outputImageMedian = _medianFilter.UseFilter(new Bitmap(Image.FromStream(file.InputStream)), 15); // Median Filter
 
-				outputImage.Save(Server.MapPath("~/") + fileName); //File will be saved in application root
+
+				outputImageBox.Save(Server.MapPath("~/img/BoxFilter_") + fileName); //File will be saved in application root
+				outputImageMedian.Save(Server.MapPath("~/img/MedianFilter_") + fileName); //File will be saved in application root
+
 			}
 			return Json("Uploaded " + Request.Files.Count + " files");
 		}

@@ -5,29 +5,33 @@
 <div class="row">
 	<h1>Пожалуйста, загузите изображение для обработки</h1>
 	<form id="uploader">
-		<input id="fileInput" type="file" multiple/>
-		<input type="submit" value="Upload file" />
+		<input id="fileInput" class="form-control" type="file" multiple/>
+		<input id="fileSubmit" type="submit" class="btn btn-primary form-control" value="Upload file" />
 	</form>
 </div>
 <script>
 	document.getElementById('uploader').onsubmit = function () {
-    var formdata = new FormData(); //FormData object
-    var fileInput = document.getElementById('fileInput');
-    //Iterating through each files selected in fileInput
-    for (i = 0; i < fileInput.files.length; i++) {
-        //Appending each file to FormData object
-        formdata.append(fileInput.files[i].name, fileInput.files[i]);
-    }
-    //Creating an XMLHttpRequest and sending
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'Home/UploadImage');
-    xhr.send(formdata);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            alert(xhr.responseText);
-        }
-    }
-    console.log(22);
-    return false;
-}
+		$('#fileSubmit').attr("disabled", "true");
+		$('#fileSubmit').attr("value", "Please, wait...");
+
+		var formdata = new FormData(); //FormData object
+		var fileInput = document.getElementById('fileInput');
+		//Iterating through each files selected in fileInput
+		for (i = 0; i < fileInput.files.length; i++) {
+			//Appending each file to FormData object
+			formdata.append(fileInput.files[i].name, fileInput.files[i]);
+		}
+		//Creating an XMLHttpRequest and sending
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'Home/UploadImage');
+		xhr.send(formdata);
+		xhr.onreadystatechange = function () {
+			$('#fileSubmit').removeAttr("disabled");
+			$('#fileSubmit').attr("value", "Upload file");
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				alert(xhr.responseText);
+			}
+		}
+		return false;
+	}
 </script>
