@@ -125,6 +125,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Binarization.cs" />
     <Compile Include="Services\BoxFilter.cs" />
     <Compile Include="Services\MedianFilter.cs" />
   </ItemGroup>

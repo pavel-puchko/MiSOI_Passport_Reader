@@ -29,6 +29,10 @@
 			$('#fileSubmit').removeAttr("disabled");
 			$('#fileSubmit').attr("value", "Upload file");
 			if (xhr.readyState == 4 && xhr.status == 200) {
+				$('body').append("<img title= 'Box' src='/img/BoxFilter_" + xhr.responseText.slice(1, -1) + "'>");
+				$('body').append("<img title= 'Median' src='/img/MedianFilter_" + xhr.responseText.slice(1, -1) + "'>");
+				$('body').append("<img title= 'Binarization' src='/img/BinarizationFilter_" + xhr.responseText.slice(1, -1) + "'>");
+
 				alert(xhr.responseText);
 			}
 		}
